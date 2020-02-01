@@ -41,7 +41,7 @@
             <ImageView
                 android:id="@+id/noteFavorite"
                 android:contentDescription="@string/menu_favorite"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 tools:src="@drawable/ic_star_yellow_24dp"/>
@@ -68,7 +68,7 @@
             android:paddingEnd="16dp"
             android:paddingLeft="0dp"
             android:paddingStart="0dp"
-            android:paddingBottom="16dp"
+            android:paddingBottom="8dp"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
