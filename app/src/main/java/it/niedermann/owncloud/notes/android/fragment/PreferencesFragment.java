@@ -40,5 +40,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
             Log.v(TAG, "syncOnWifiOnly: " + syncOnWifiOnly);
             return true;
         });
+
+        final SwitchPreference timestampsPref = findPreference(getString(R.string.pref_key_timestamp));
+        timestampsPref.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+//            Boolean showTimestamps = (Boolean) newValue;
+            return true;
+        });
     }
 }

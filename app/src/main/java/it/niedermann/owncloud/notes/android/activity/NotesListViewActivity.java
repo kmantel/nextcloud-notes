@@ -536,7 +536,7 @@ public class NotesListViewActivity extends AppCompatActivity implements ItemAdap
     }
 
     public void initList() {
-        adapter = new ItemAdapter(this);
+        adapter = new ItemAdapter(this, this);
         listView.setAdapter(adapter);
         listView.setLayoutManager(new LinearLayoutManager(this));
         new NotesListViewItemTouchHelper(this, this, db, adapter, syncCallBack, this::refreshLists).attachToRecyclerView(listView);
