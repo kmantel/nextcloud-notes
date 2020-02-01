@@ -36,6 +36,13 @@
         android:title="@string/settings_font_size" />
 
     <SwitchPreference
+        android:defaultValue="@bool/pref_value_timestamp"
+        android:icon="@drawable/ic_access_time_grey600_24dp"
+        android:key="@string/pref_key_timestamp"
+        android:layout="@layout/item_pref"
+        android:title="@string/settings_timestamps_title" />
+
+    <SwitchPreference
         android:defaultValue="@string/pref_value_wifi_and_mobile"
         android:icon="@drawable/ic_sync_black_24dp"
         android:key="@string/pref_key_wifi_only"

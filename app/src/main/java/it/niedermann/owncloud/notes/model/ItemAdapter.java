@@ -1,5 +1,8 @@
 package it.niedermann.owncloud.notes.model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,11 +33,13 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Item> itemList;
     private boolean showCategory = true;
     private List<Integer> selected;
+    private Context context;
 
-    public ItemAdapter(@NonNull NoteClickListener noteClickListener) {
+    public ItemAdapter(Context context, @NonNull NoteClickListener noteClickListener) {
         this.itemList = new ArrayList<>();
         this.selected = new ArrayList<>();
         this.noteClickListener = noteClickListener;
+        this.context = context;
     }
 
     /**
@@ -84,6 +89,9 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Boolean timestampsEnabled = prefs.getBoolean(this.context.getString(R.string.pref_key_timestamp), false);
+
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         Item item = itemList.get(position);
@@ -101,6 +109,9 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             nvHolder.noteStatus.setVisibility(DBStatus.VOID.equals(note.getStatus()) ? View.INVISIBLE : View.VISIBLE);
             nvHolder.noteFavorite.setImageResource(note.isFavorite() ? R.drawable.ic_star_yellow_24dp : R.drawable.ic_star_grey_ccc_24dp);
             nvHolder.noteFavorite.setOnClickListener(view -> noteClickListener.onNoteFavoriteClick(holder.getAdapterPosition(), view));
+            nvHolder.noteTimestamp.setVisibility(timestampsEnabled ? View.VISIBLE : View.GONE);
+            nvHolder.noteTimestamp.setText(Html.fromHtml(note.getModified(this.context.getString(R.string.timestamp_format))));
+
         }
     }
 
@@ -178,6 +189,8 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView noteCategory;
         @BindView(R.id.noteExcerpt)
         TextView noteExcerpt;
+        @BindView(R.id.noteTimestamp)
+        TextView noteTimestamp;
         @BindView(R.id.noteStatus)
         ImageView noteStatus;
         @BindView(R.id.noteFavorite)
@@ -194,6 +207,7 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.noteExcerpt = v.findViewById(R.id.noteExcerpt);
             this.noteStatus = v.findViewById(R.id.noteStatus);
             this.noteFavorite = v.findViewById(R.id.noteFavorite);
+            this.noteTimestamp = v.findViewById(R.id.noteTimestamp);
             v.setOnClickListener(this);
             v.setOnLongClickListener(this);
         }
